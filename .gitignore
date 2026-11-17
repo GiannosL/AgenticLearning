@@ -1,3 +1,9 @@
+# Giannos
+.idea/
+.venv/
+pyproject.toml
+uv.lock
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
