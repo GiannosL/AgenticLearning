@@ -5,8 +5,10 @@ from pathlib import Path
 def read_file(file_name: str) -> str:
     #
     file_path = Path(file_name)
+    if not file_path.is_relative_to(CONFIG["data_directory"]):
+        raise PermissionError("Access denied: file is outside the permitted directory.")
 
-    if file_path.exists():
+    if file_path.is_file():
         with open(file_path, "r") as f:
             contents = f.read()
 
@@ -18,6 +20,8 @@ def read_file(file_name: str) -> str:
 def parse_image(file_name: str):
     #
     file_path = Path(file_name)
+    if not file_path.is_relative_to(CONFIG["data_directory"]):
+        raise PermissionError("Access denied: file is outside the permitted directory.")
 
     if file_path.exists():
         return Image.open(file_name)
@@ -38,5 +42,7 @@ CONFIG = {
             "into steps. If information essential to the task is "
             "missing, indicate that clarification is necessary."
         ),
-    }
+    },
+    # force the LLM to access only files under specified directory
+    "data_directory": Path("data/").expanduser(),
 }
