@@ -1,0 +1,170 @@
+Title
+Real-world drug use in ATC and ICD-10: an expert-curated drug–diagnosis resource based on UK
+primary care and Danish hospitalization electronic health records
+
+Abstract
+As the use of electronic health records in drug repositioning research increases, so does the
+need for a well-curated resource describing real-world drug-diagnosis relationships. This
+need is particularly important in the context of polypharmacy. Although literature-based
+drug-disease maps exist, they are typically based on mechanistic disease ontologies, which are
+not widely used in clinical settings and do not align well with the ICD system, which is most
+often used in healthcare. Here, we used real-world primary and secondary healthcare data
+from approximately 1.5 million individuals to identify drug-diagnosis co-occurrences ( 736,000
+pairs), significant associations (7,763 pairs), and assess direct drug usage through medical
+expert curation. The final resource comprises 7,763 associations with odds ratios > 3.5,
+manually annotated by six independent clinicians (3 in the UK and 3 in Denmark). Finally,
+the clinician annotations were scored using an Expectation-Maximization-based framework
+providing a confidence score for each pair. Our resource shows that the vast majority of
+significantly associated drugs and diagnoses in healthcare records are not due to direct
+treatment of the diagnosis. Additionally, through the annotation results, we demonstrate the
+importance of accounting for systematic differences among annotators when working with
+real-world data.
+
+Introduction
+Electronic health records (EHRs) contain decades of longitudinal clinical data that can enable
+large-scale biomedical research.[1, 2] However, healthcare systems differ across countries and
+evolve over time, creating heterogeneous EHR datasets with differences in coding practices and
+clinical context.[3, 4] Interpreting drug use across such data requires a standardized resource
+that captures real-world drug usage patterns across both primary and secondary healthcare
+systems. Terminology and classification systems such as ICD (International Classification
+of Diseases) are widely used in hospitals worldwide for diagnostic, administrative, and
+billing purposes.[3, 5] The ATC (Anatomical Therapeutic Chemical) system is another
+internationally adopted medication coding system used across clinical databases and EHRs.[6,
+7] The combination of the ICD and ATC systems provides a good common terminology for
+the representation of drugs and diagnoses across datasets.
+
+Publicly available resources that link drugs to disease and phenotype ontologies, such
+as SNOMED CT and the Human Phenotype Ontology (HPO), are valuable for research.
+However, they are not interchangeable with the terminologies historically used in EHR data in
+many countries.[8] Ontologies such as HPO represent concepts and their semantic relationships
+at high granularity, whereas clinical terminologies such as ICD are used for the organization
+and reporting of episodes in the clinic. Many legacy EHR systems remain anchored in
+ICD-based diagnostic coding because they were designed for clinical documentation rather
+than research, and phenotype ontologies do not map explicitly to ICD terminologies. The
+ICD-11 revision tries to mitigate the issue by mapping to SNOMED CT,[9] but it is not
+widely implemented yet. A drug-use resource based on ICD and ATC codes could therefore
+provide a practical framework for studying medication use in historical EHR data generated
+before the transition to newer terminology systems.
+Clinical coding systems used in EHRs change over time. In 2018, the UK transitioned to
+SNOMED CT as a unified coding framework, replacing Read codes, using the Dictionary of
+Medicines and Devices (dm+d) to describe drugs, most often as Virtual Medicinal Products
+(VMPs). The dm+d terminology is incorporated within SNOMED CT, supporting a globally
+maintained ontology.[4] Such transitions in coding systems highlight the need for a resource
+that describes routine drug use in clinical settings.
+
+A few examples of large-scale drug-disease datasets exist. PrimeKG is a graph-structured
+dataset that represents drugs using DrugBank identifiers, while diseases are encoded using
+MONDO and HPO ontology terms.[10] DrugBank[11] is a comprehensive drug information
+resource, whereas MONDO and HPO[12] provide standardized ontologies for diseases and
+phenotypic abnormalities. Although PrimeKG effectively links drugs to disease concepts,
+these ontology-based disease representations do not directly align with clinical terminologies.
+Consequently, integrating PrimeKG with real-world clinical datasets requires additional
+mapping between ontology terms and clinical terminologies, which can introduce errors
+and mapping ambiguity. ClinGraph is another graph-structured dataset that integrates
+biomedical concepts, including drugs and diseases.[8] However, ClinGraph does not provide
+explicit links between ATC drug classifications and ICD disease codes either. Instead, these
+entities are indirectly connected through PheCodes, which are phenotype groupings that
+aggregate related ICD codes into clinically meaningful disease categories commonly used
+in phenome-wide association studies.[13] While PheCodes facilitate large-scale phenotype
+analyses, they reduce coding granularity by collapsing multiple ICD codes into broader
+disease groupings.[13] As a result, relationships inferred through PheCodes may obscure
+specific drug–disease relationships. These limitations highlight the need for a contemporary
+disease-to-drug relationship map that reflects clinical care routines, enabling researchers to
+work with real-world healthcare data. Finally, MEDI[14] is a medication-indication resource
+that links drugs to their therapeutic indications. It is built from the public resources RxNorm,
+SIDER, MedlinePlus, and Wikipedia and represents drugs annotated by RxNorm concepts and
+diseases using UMLS and ICD-9 codes. Although this resource supports medication indication
+mapping, it does not include empirical observations of drug-diagnosis co-occurrences.
+
+When working with real-world EHRs, it is important to distinguish between clinically
+directed drug use and non-directed drug use. Neither co-occurrence nor association between
+drugs and diagnoses can be interpreted as therapeutic indications. We distinguish between
+clinically directed drug use and indirect relationships, which are a result of treating comorbidities, prophylaxis, treatment of symptoms, or treatment of side effects from previous
+treatment. Our clinically curated resource will therefore allow us to distinguish between
+directed drug use and indirect relationships.
+
+To the best of our knowledge, a comprehensive drug-use resource linking ATC drug codes
+to ICD diagnosis codes does not exist in the public domain. In this work, we generated
+a data-driven mapping of drugs (prescriptions and dispensations) to disease diagnoses in
+primary and secondary care. We used two large real-world healthcare datasets spanning
+different healthcare modalities and geographic regions (UK and Denmark) to generate a datadriven list of drug usage by disease using ATC and ICD-10 codes. Clinicians independently
+annotated the identified relationships, and scoring metrics measured their agreement while
+accounting for uncertainty. With this resource, we aim to support cross-disease and crosscountry comparisons and provide a reference resource for translational research across multiple
+healthcare fields.
+
+Results
+For the Danish hospital data, we started with 2,551,705 patients and removed entries with
+missing ICD-10 and ATC codes, as well as ICD-10 codes describing events, external causes,
+and healthcare utilization. The remaining 1,327,277 patients gave rise to 478,227 drugdiagnosis pairs [Table 1]. Those pairs were filtered for prevalence in 50 unique patients (58,246
+pairs) and then tested for significant association using Fisher’s exact test. Afterward, multiple
+test correction was applied using the False Discovery Rate - Benjamini-Hochberg (FDR-BH)
+approach, leaving 6,434 (11.04%) associations remaining under the 0.05 significance level and
+3.5 odds ratio thresholds.
+For the UK general practitioner (GP) data, the initial population was filtered in the
+same way, from 230,523 to 225,522 participants with 258,237 drug-diagnosis pairs. After the
+prevalence filter, 18,046 pairs remained; of those, we identified 1,615 (8.95
+
+Overall, the UK and DK data showed distinct differences in the distribution of both ICD-10
+diagnoses and ATC drug codes represented in the significant drug-diagnosis pairs [Figure
+1c and 1d]. It should be noted that the UK data is derived from primary healthcare data,
+whereas the DK data comes from a secondary healthcare (hospital) setting. Within the
+significant associations between ICD-10 and ATC codes, the DK data showed the highest
+percentage of ICD chapter II, neoplasms (DK = 22.32%, UK=1.13%). This is consistent with
+the source of the DK data being hospital records, where treatment of cancers and neoplasms
+will be common. In contrast, the UK data showed the highest percentages for ICD-10 chapter
+I, certain infectious and parasitic diseases (UK=10.12%, DK=4.74%), chapter V, mental and
+behavioral disorders (UK=9.69%, DK=2.70%), and chapter X, diseases of the respiratory
+system (UK=11.12%, DK=7.65%).
+
+Within significant associations between ICD-10 and ATC codes, the DK data had the
+highest percentage of ATC chapter N, nervous system (DK=18.53%, UK=14.64%) [Figures
+1c and 1d]. This likely reflects the inclusion of anesthetics and analgesics in this chapter,
+which are prevalent in hospital prescriptions.[15] The UK data had a higher percentage
+of ATC chapters C, cardiovascular system (UK=14.58%, DK=8.86%), and R, respiratory
+system (UK=13.56%, DK=5.6%). This is likely to reflect the treatment of chronic diseases
+in a primary healthcare setting, including arrhythmia, angina, and coronary artery disease,
+as well as asthma and chronic obstructive pulmonary disease. Notably, ICD-10 chapter C,
+neoplasms, and ATC chapter L, antineoplastic and immunomodulating agents, are almost
+absent from the UK data, consistent with the lack of use of these drugs in primary care.
+
+The significantly associated drug-diagnosis pairs identified in each country were reviewed
+independently by three clinicians with experience in the respective country’s healthcare
+system: three DK clinicians reviewed the DK pairs and three UK clinicians reviewed the UK
+pairs. Inter-annotator agreement was assessed separately for the Danish and UK datasets
+using Fleiss’ kappa. The DK clinicians showed moderate agreement, with a kappa of 0.545.
+The UK clinicians achieved a kappa value of 0.283, interpreted as fair agreement.[16, 17]
+
+In the Danish annotations, complete agreement was most commonly observed for pairs
+classified as not directly prescribed for the diagnosis [Figure 2a]. All three clinicians assigned
+a "no" label to approximately 65% of reviewed pairs (3,974 pairs). This implies the majority
+of disease-drug pairs are straightforward cases where drug usage is not directly related to the
+disease specified. Complete agreement on direct prescriptions was less frequent, with all three
+clinicians assigning a "yes" label to 10.78% (694 pairs). This likely reflects both the smaller
+number of associated pairs that reflect true direct drug usage and clinician conservativeness.
+Comparatively, the most frequent complete consensus pattern in UK data was agreement
+on "yes" annotations, observed for 20.84% (333 pairs) [Figure 2b]. This might be influenced
+by the smaller size of the UK data but also suggests that UK clinicians were more inclined
+toward positive relationship assignments than DK clinicians. This may reflect the source of
+the drug-disease pairs - in DK from a hospital setting, in the UK from a primary care setting
+- and the specificity of treatment that occurs in each environment.
+
+Within each country set, clinician-specific patterns were observed, potentially reflecting
+differences in the conservativeness of label annotation and ambiguity of drug usage for specific
+diseases. In the DK data, the "unsure" label was used most frequently by clinician 2, who
+assigned this label to 830 pairs. In 55% (459 pairs) of these cases, the other two clinicians
+both agreed upon a "no" or "yes" annotation. This suggests that clinician 2 was the most
+conservative of the three clinicians in assigning definite associations. In the UK data, patterns
+were more complex, reflected in the lower Fleiss’ kappa. UK clinicians A and B assigned "yes"
+labels to more than half of the reviewed pairs, whereas clinician C predominantly assigned
+"no" labels. The next most common pattern involved "yes" labels from clinicians A and B
+and a "no" label from clinician C, observed for 280 pairs. This indicates that clinicians A and
+B have a common prior that is different from that of clinician C.
+
+The signed confidence score was calculated for each drug-diagnosis pair within each country
+using the Dawid-Skene approach (see methods). The distribution [Supp fig: confidence score
+distributions] suggests that Danish pairs had a higher density of negative scores, whereas
+UK pairs had a higher density of positive scores. This observation aligns with the "yes" and
+"no" percentages UK vs DK clinicians assigned to the individual pairs. In addition, scores
+for UK pairs showed a higher density around zero, particularly between -0.5 and 0.5, than
+for DK pairs. Higher density around zero suggests greater overall uncertainty in pairwise
+annotations among UK clinicians.
